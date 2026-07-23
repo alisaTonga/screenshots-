@@ -1,0 +1,16 @@
+{
+  "name": "metzler-visual-regression",
+  "version": "1.0.0",
+  "description": "Automated screenshot / visual regression testing for edelstahl-tuerklingel.de",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "update-baseline": "playwright test --update-snapshots",
+    "report": "playwright show-report",
+    "test:desktop": "playwright test --project=desktop-chrome",
+    "test:mobile": "playwright test --project=mobile"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}
