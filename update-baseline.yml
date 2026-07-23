@@ -1,0 +1,34 @@
+name: Update Visual Baseline
+
+# Manual only — run this deliberately after a real, approved design change.
+# It regenerates tests/__screenshots__ on Ubuntu (same OS as the comparison
+# workflow) and commits the new baseline images directly to the branch.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-baseline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+
+      - name: Regenerate baseline screenshots
+        run: npm run update-baseline
+
+      - name: Commit updated baseline
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add tests/__screenshots__
+          git diff --staged --quiet && echo "No changes to commit" || git commit -m "Update visual regression baseline"
+          git push
