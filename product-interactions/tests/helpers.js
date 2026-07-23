@@ -1,4 +1,5 @@
 const path = require('path');
+<<<<<<< HEAD
 const fs = require('fs');
 
 // Root folder for interaction-test screenshots. Mirrors the visual-regression
@@ -11,6 +12,11 @@ function today() {
   const p = (n) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
+=======
+
+// Folder where step screenshots are saved (one PNG per named step).
+const SHOTS_DIR = path.join(__dirname, '..', 'screenshots');
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
 
 // ---------------------------------------------------------------------------
 // SELECTORS
@@ -33,6 +39,7 @@ const SEL = {
     frage: '#tab-questionOnItem',
   },
 
+<<<<<<< HEAD
   // RELIABLE — the product image area has a gallery view and a "3D" view.
   // Seen in the page HTML as anchors #tab-gallery and #tab-configurator,
   // with the 3D toggle labelled "3D".
@@ -47,6 +54,9 @@ const SEL = {
   // Common patterns: 'canvas', '.3d-viewer canvas', '[data-3d] canvas'
   threeDCanvas: 'PLACEHOLDER_3d_canvas_selector',
 
+=======
+  // RELIABLE — buttons identified by their visible text
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   text: {
     jetztAnpassen: 'Jetzt anpassen',
     inDenWarenkorb: 'In den Warenkorb',
@@ -87,6 +97,7 @@ async function dismissOverlays(page) {
     .catch(() => {});
 }
 
+<<<<<<< HEAD
 // Full-page screenshot saved as __screenshots__/<viewport>/<date>_<name>.png
 // `testInfo` is Playwright's per-test info object — we read the project name
 // from it (e.g. 'desktop-chrome' or 'mobile') to pick the subfolder.
@@ -99,3 +110,14 @@ async function shot(page, testInfo, name) {
 }
 
 module.exports = { SEL, SHOTS_ROOT, dismissOverlays, shot };
+=======
+// Full-page screenshot into the screenshots/ folder with a tidy name.
+async function shot(page, name) {
+  await page.screenshot({
+    path: path.join(SHOTS_DIR, `${name}.png`),
+    fullPage: true,
+  });
+}
+
+module.exports = { SEL, SHOTS_DIR, dismissOverlays, shot };
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87

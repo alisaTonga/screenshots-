@@ -23,10 +23,13 @@ module.exports = defineConfig({
       name: 'desktop-chrome',
       use: { ...devices['Desktop Chrome'], viewport: { width: 1920, height: 1080 } },
     },
+<<<<<<< HEAD
     {
       name: 'mobile',
       use: { ...devices['iPhone 13'] },
     },
+=======
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   ],
 
   reporter: [['html', { open: 'never' }], ['list']],

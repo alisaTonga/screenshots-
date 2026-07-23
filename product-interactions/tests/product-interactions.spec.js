@@ -25,7 +25,11 @@ function assertFilled(selector, label) {
 // redirect to the colour child page?" A failure here means the redirect is
 // broken even on a fully-loaded page — a genuine bug worth reporting.
 // ===========================================================================
+<<<<<<< HEAD
 test('colour selection redirects to the selected-colour child page', async ({ page }, testInfo) => {
+=======
+test('colour selection redirects to the selected-colour child page', async ({ page }) => {
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   assertFilled(SEL.colorSwatch, 'colorSwatch');
   assertFilled(SEL.colorSideMenuOption, 'colorSideMenuOption');
 
@@ -42,7 +46,11 @@ test('colour selection redirects to the selected-colour child page', async ({ pa
     .waitFor({ state: 'visible', timeout: 15000 })
     .catch(() => {});
   await page.waitForTimeout(800); // small settle for late-attaching JS handlers
+<<<<<<< HEAD
   await shot(page, testInfo, '01-parent-before-color');
+=======
+  await shot(page, '01-parent-before-color');
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
 
   // Open the colour chooser — either the "Bitte Farbe wählen" prompt or a swatch
   const prompt = page.getByText(SEL.text.bitteFarbeWaehlen, { exact: false }).first();
@@ -51,7 +59,11 @@ test('colour selection redirects to the selected-colour child page', async ({ pa
   } else {
     await page.locator(SEL.colorSwatch).first().click();
   }
+<<<<<<< HEAD
   await shot(page, testInfo, '02-color-sidemenu-open');
+=======
+  await shot(page, '02-color-sidemenu-open');
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
 
   // Pick a colour in the side menu
   await page.locator(SEL.colorSideMenuOption).first().click();
@@ -67,7 +79,11 @@ test('colour selection redirects to the selected-colour child page', async ({ pa
     });
 
   await dismissOverlays(page);
+<<<<<<< HEAD
   await shot(page, testInfo, '03-color-child-page');
+=======
+  await shot(page, '03-color-child-page');
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   expect(page.url()).not.toContain(PARENT_PRODUCT);
 });
 
@@ -77,7 +93,11 @@ test('colour selection redirects to the selected-colour child page', async ({ pa
 // These selectors are RELIABLE (fixed #tab-* anchors), so this flow should
 // work out of the box.
 // ===========================================================================
+<<<<<<< HEAD
 test('all product tabs open and show their panel', async ({ page }, testInfo) => {
+=======
+test('all product tabs open and show their panel', async ({ page }) => {
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   await page.goto(ANTHRAZIT_CHILD, { waitUntil: 'domcontentloaded' });
   await dismissOverlays(page);
 
@@ -102,7 +122,11 @@ test('all product tabs open and show their panel', async ({ page }, testInfo) =>
     const panel = page.locator(tab.hash);
     await expect(panel, `panel ${tab.hash} should be visible`).toBeVisible({ timeout: 8000 });
 
+<<<<<<< HEAD
     await shot(page, testInfo, `tab-${tab.name}`);
+=======
+    await shot(page, `tab-${tab.name}`);
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   }
 });
 
@@ -114,8 +138,12 @@ test('all product tabs open and show their panel', async ({ page }, testInfo) =>
 // the steps it can, screenshots each, and clicks "Weiter" to advance. Fill in
 // the per-step field selectors to make it actually choose options.
 // ===========================================================================
+<<<<<<< HEAD
 test('configurator opens and steps can be walked', async ({ page }, testInfo) => {
 
+=======
+test('configurator opens and steps can be walked', async ({ page }) => {
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   await page.goto(ANTHRAZIT_CHILD, { waitUntil: 'domcontentloaded' });
   await dismissOverlays(page);
 
@@ -124,7 +152,11 @@ test('configurator opens and steps can be walked', async ({ page }, testInfo) =>
   await expect(anpassen, '"Jetzt anpassen" button should exist').toBeVisible({ timeout: 8000 });
   await anpassen.click();
   await page.waitForTimeout(1500);
+<<<<<<< HEAD
   await shot(page, testInfo, 'config-01-opened');
+=======
+  await shot(page, 'config-01-opened');
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
 
   // The configurator has these numbered steps (labels seen in the page):
   const stepLabels = [
@@ -143,7 +175,11 @@ test('configurator opens and steps can be walked', async ({ page }, testInfo) =>
     // Assert the step header is present (confirms we're on/through this step)
     const header = page.getByText(label, { exact: false }).first();
     if (await header.isVisible({ timeout: 4000 }).catch(() => false)) {
+<<<<<<< HEAD
       await shot(page, testInfo, `config-step-${String(i + 1).padStart(2, '0')}-${label.replace(/[^a-zA-Z]/g, '').slice(0, 12)}`);
+=======
+      await shot(page, `config-step-${String(i + 1).padStart(2, '0')}-${label.replace(/[^a-zA-Z]/g, '').slice(0, 12)}`);
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
     } else {
       console.warn(`  ⚠ configurator step "${label}" header not visible — layout may differ`);
     }
@@ -163,6 +199,7 @@ test('configurator opens and steps can be walked', async ({ page }, testInfo) =>
     }
   }
 
+<<<<<<< HEAD
   await shot(page, testInfo, 'config-99-final');
 });
 
@@ -202,6 +239,9 @@ test('3D model view opens on the product page', async ({ page }, testInfo) => {
       'this a real check.'
     );
   }
+=======
+  await shot(page, 'config-99-final');
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
 });
 
 // ===========================================================================
@@ -210,7 +250,11 @@ test('3D model view opens on the product page', async ({ page }, testInfo) => {
 // PLACEHOLDER — fill it in to let the test assert the cart actually opened.
 // Stops after screenshotting the side-cart (no checkout).
 // ===========================================================================
+<<<<<<< HEAD
 test('add to cart opens the side-cart', async ({ page }, testInfo) => {
+=======
+test('add to cart opens the side-cart', async ({ page }) => {
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
   await page.goto(ANTHRAZIT_CHILD, { waitUntil: 'domcontentloaded' });
   await dismissOverlays(page);
 
@@ -225,5 +269,9 @@ test('add to cart opens the side-cart', async ({ page }, testInfo) => {
   await expect(cart, 'side-cart should become visible after add-to-cart')
     .toBeVisible({ timeout: 8000 });
 
+<<<<<<< HEAD
   await shot(page, testInfo, 'cart-side-open');
+=======
+  await shot(page, 'cart-side-open');
+>>>>>>> cdca23cb39b29eb9f4e061c4f74fe1114f212a87
 });
