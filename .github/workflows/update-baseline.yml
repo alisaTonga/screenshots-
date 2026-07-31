@@ -13,11 +13,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      # v5 actions run on the Node 24 runtime; the old v4 actions run on the
+      # now-deprecated node20 runtime and fail. Keep in sync with
+      # visual-regression.yml.
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
 
       - run: npm install
       - run: npx playwright install --with-deps chromium webkit
