@@ -1,11 +1,14 @@
 name: Visual Regression
 
 on:
-  schedule:
-    - cron: '0 5 * * *'      # daily at 05:00 UTC (06:00/07:00 Germany, depending on DST)
-  push:
-    branches: [main]
-  workflow_dispatch:          # lets you trigger a run manually from the Actions tab
+  # Auto-run disabled. This workflow now runs ONLY when you trigger it by hand
+  # (Actions tab -> Visual Regression -> Run workflow). To re-enable automatic
+  # runs later, uncomment the schedule and/or push blocks below.
+  # schedule:
+  #   - cron: '0 5 * * *'      # daily at 05:00 UTC (06:00/07:00 Germany, depending on DST)
+  # push:
+  #   branches: [main]
+  workflow_dispatch:          # manual trigger from the Actions tab
 
 concurrency:
   group: visual-regression
