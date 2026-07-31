@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# Playwright generated artifacts (regenerated on every run)
+test-results/
+playwright-report/
+
+# Visual issues log — generated diffs; browse locally. Remove this line if you
+# prefer to commit the issues/ folder so failures show up in git.
+issues/

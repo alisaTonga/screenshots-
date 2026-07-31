@@ -34,3 +34,12 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 14
+
+      - name: Upload visual issues (expected/actual/diff of failing pages)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-issues
+          path: issues/
+          retention-days: 14
+          if-no-files-found: ignore   # no artifact when every page passed

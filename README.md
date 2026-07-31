@@ -103,18 +103,76 @@ baseline on Ubuntu, before the scheduled comparisons start running.
 | Situation | What to do |
 |---|---|
 | Checking if a recent deploy broke anything | Just wait for the nightly run, or trigger `visual-regression.yml` manually |
-| A test failed | Open the report artifact, look at the diff image — is it a real bug or noise? |
+| A test failed | Open the `issues/<date>/` folder (or the report artifact) and look at `diff.png` — is it a real bug or noise? |
 | It's noise (rotating badge, review count, etc.) | Add a CSS selector for it to `DYNAMIC_SELECTORS` in `tests/visual.spec.js` |
 | You shipped an intentional design change | Run `update-baseline.yml` manually to approve the new look as baseline |
 | Adding a new page to monitor | Add an entry to `pages.config.js`, then run `update-baseline.yml` once |
 
 ## Adding or removing pages
 
-Edit `pages.config.js` — each entry is just a name and a URL path:
+`pages.config.js` is the single place where **all screenshot URLs** live. Each
+entry is just a name and a URL path:
 
 ```js
 { name: 'category-alarmanlagen', path: '/alarmanlagen' },
 ```
+
+### Pages that need multiple images (e.g. the configurator)
+
+Some pages need more than one screenshot — a configurator should be captured
+in several states. Add a `shots` array to that page's entry; the suite then
+takes and compares one image per shot, saved as `<name>-<suffix>.png`:
+
+```js
+{
+  name: 'configurator',
+  path: '/your-configurator-url',
+  shots: [
+    { suffix: 'default' },                       // initial state, no interaction
+    {
+      suffix: 'anthrazit',
+      action: async (page) => {                  // interact before this shot
+        await page.getByRole('button', { name: 'Anthrazit' }).click();
+      },
+    },
+    {
+      suffix: 'with-nameplate',
+      action: async (page) => {
+        await page.getByLabel('Namensschild').check();
+      },
+    },
+  ],
+}
+```
+
+Produces `configurator-default.png`, `configurator-anthrazit.png`,
+`configurator-with-nameplate.png`. Pages **without** a `shots` array keep the
+normal single-image behaviour. A commented-out template lives at the bottom of
+`pages.config.js`. (After adding shots, run the baseline update once so the new
+images get an approved reference.)
+
+## Reviewing failures: the `issues/` folder
+
+Whenever a page differs from its baseline, the suite copies that page's images
+into a browsable `issues/` folder (in addition to the HTML report), so you can
+see exactly what changed without digging through Playwright internals:
+
+```
+issues/
+  2026-07-31/                        one folder per day
+    001_homepage-desktop-chrome/     one folder per failing page, numbered
+      expected.png                   the approved baseline
+      actual.png                     what the page looks like now
+      diff.png                       the two overlaid, differences highlighted
+      info.txt                       page name + error summary (e.g. pixel ratio)
+    002_pdp-standbriefkasten-2er-mobile/
+      ...
+```
+
+Numbering **continues across runs on the same day** — it never overwrites an
+earlier issue, so the day's folder is a running log. The folder is generated
+(and git-ignored by default); delete it any time. To have failures show up in
+git instead, remove the `issues/` line from `.gitignore`.
 
 ## Reducing false positives
 
